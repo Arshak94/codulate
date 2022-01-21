@@ -1,20 +1,15 @@
-package com.codulate.admin.service;
+package com.codulate.user.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.stereotype.Component;
 
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 
-@Component
-public class CoordinatesListener implements MessageListener {
+public class ViolationListener implements MessageListener {
 
-    private static final String TOPIK="coordinates";
-
-    @Autowired
-    private ViolationProducer violationProducer;
+    private static final String TOPIK="violation";
 
     @Override
     @JmsListener(destination = TOPIK)
@@ -22,8 +17,6 @@ public class CoordinatesListener implements MessageListener {
         try{
             ObjectMessage objectMessage = (ObjectMessage)message;
             String mes = (String)objectMessage.getObject();
-            //check
-            violationProducer.sendMessage("inch vor message");
             System.out.println("Received Message: "+ mes);
         } catch(Exception e) {
             System.err.println("Received Exception : "+ e);

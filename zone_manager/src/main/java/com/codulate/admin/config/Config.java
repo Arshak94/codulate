@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
+import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.ConnectionFactory;
 import java.util.Arrays;
@@ -19,7 +20,7 @@ public class Config {
     public ConnectionFactory connectionFactory(){
         ActiveMQConnectionFactory activeMQConnectionFactory  = new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setBrokerURL(brokerUrl);
-        activeMQConnectionFactory.setTrustedPackages(Arrays.asList("com.codulate.consumer", "com.codulate.producer"));
+        activeMQConnectionFactory.setTrustedPackages(Arrays.asList("com.codulate.admin", "com.codulate.user"));
         return  activeMQConnectionFactory;
     }
     @Bean
@@ -28,5 +29,13 @@ public class Config {
         factory.setConnectionFactory(connectionFactory());
         factory.setPubSubDomain(true);
         return factory;
+    }
+
+    @Bean
+    public JmsTemplate jmsTemplate(){
+        JmsTemplate jmsTemplate = new JmsTemplate();
+        jmsTemplate.setConnectionFactory(connectionFactory());
+        jmsTemplate.setPubSubDomain(true);  // enable for Pub Sub to topic. Not Required for Queue.
+        return jmsTemplate;
     }
 }
