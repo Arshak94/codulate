@@ -5,16 +5,15 @@ import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MessageSender {
+public class CoordinatesSender {
 
-    private static final String TOPIK = "coordinates";
+    private static final String TOPIK = "coordinate";
 
     @Autowired
     JmsTemplate jmsTemplate;
 
     public void sendMessage(String message) {
         try {
-            System.out.println(message);
             jmsTemplate.convertAndSend(TOPIK, message);
         } catch (Exception e) {
             System.err.print("Recieved Exception during send Message: " + e);

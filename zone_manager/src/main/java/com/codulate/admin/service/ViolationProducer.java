@@ -14,7 +14,6 @@ public class ViolationProducer {
 
     public void sendMessage(String message) {
         try {
-            System.out.println(message);
             jmsTemplate.convertAndSend(TOPIK, message);
         } catch (Exception e) {
             System.err.print("Recieved Exception during send Message: " + e);
