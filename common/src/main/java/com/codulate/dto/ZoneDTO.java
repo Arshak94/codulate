@@ -1,7 +1,9 @@
 package com.codulate.dto;
 
 
-public class ZoneDTO {
+import java.io.Serializable;
+
+public class ZoneDTO implements Serializable {
     private String name;
     private CoordinatesDTO coordinates;
 

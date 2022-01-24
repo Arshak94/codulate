@@ -1,11 +1,9 @@
 package com.codulate.user.resource;
 
-import com.codulate.dto.CoordinatesDTO;
 import com.codulate.dto.PointDTO;
-import com.codulate.user.service.CoordinatesSender;
+import com.codulate.user.service.CoordinateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,14 +13,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class CoordinatesController {
 
     @Autowired
-    private CoordinatesSender sender;
+    private CoordinateService coordinateService;
 
-    public ResponseEntity send(@RequestBody PointDTO pointDTO){
-        return null;
+    @PostMapping("/send")
+    public void send(@RequestBody PointDTO pointDTO){
+        coordinateService.send(pointDTO);
     }
 
-    /*@GetMapping("/get")
-    public void get(@RequestBody CoordinatesDTO coordinatesDTO){
-        sender.sendMessage("Arshak du mer mec axpern es");
-    }*/
 }

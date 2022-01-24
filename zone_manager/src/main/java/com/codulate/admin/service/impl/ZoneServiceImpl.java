@@ -1,5 +1,7 @@
 package com.codulate.admin.service.impl;
 
+import com.codulate.admin.exception.CoordinateValidationException;
+import com.codulate.admin.exception.ZoneNameValidationException;
 import com.codulate.admin.repository.ZoneRepository;
 import com.codulate.admin.service.ZoneService;
 import com.codulate.dto.CoordinatesDTO;
@@ -12,38 +14,37 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
 public class ZoneServiceImpl implements ZoneService {
+
+    private static final int MINIMUM_NUMBER_OF_POINTS = 3;
+    private static final int MINIMUM_SIZE_OF_ZONE_NAME = 3;
 
     @Autowired
     private ZoneRepository zoneRepository;
 
     @Override
     public ZoneDTO create(ZoneDTO zone) {
+        if (zone.getCoordinates().getPoints().size() < MINIMUM_NUMBER_OF_POINTS){
+            throw new CoordinateValidationException(String.format(" %s or more coordinates must be provided", MINIMUM_NUMBER_OF_POINTS));
+        } else if(zone.getName().length() < MINIMUM_SIZE_OF_ZONE_NAME){
+            throw new ZoneNameValidationException(String.format("Zone name should contain more than %s characters ", MINIMUM_SIZE_OF_ZONE_NAME));
+        }
          Zone savedZone = zoneRepository.save(zoneDtoToCollection(zone));
          return zoneCollectionToDto(savedZone);
     }
 
     @Override
-    public ZoneDTO update(ZoneDTO zone, Long id) {
-        return null;
-    }
-
-    @Override
     public ZoneDTO read(String id) {
-        return zoneCollectionToDto( zoneRepository.findById(id).orElseThrow(()-> new RuntimeException()));
+        return zoneCollectionToDto( zoneRepository.findById(id).orElseThrow(NoSuchElementException::new));
     }
 
     @Override
     public List<ZoneDTO> readAll() {
         return zoneRepository.findAll().stream().map(this::zoneCollectionToDto).collect(Collectors.toList());
-    }
-
-    @Override
-    public ZoneDTO delete(Long id) {
-        return null;
     }
 
     private Zone zoneDtoToCollection(ZoneDTO zoneDTO){

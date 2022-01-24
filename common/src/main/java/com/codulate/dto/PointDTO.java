@@ -1,6 +1,8 @@
 package com.codulate.dto;
 
-public class PointDTO {
+import java.io.Serializable;
+
+public class PointDTO implements Serializable {
     private double xAxis;
     private double yAxis;
     private double zAxis;
@@ -36,5 +38,14 @@ public class PointDTO {
 
     public void setzAxis(double zAxis) {
         this.zAxis = zAxis;
+    }
+
+    @Override
+    public String toString() {
+        return "PointDTO{" +
+                "xAxis=" + xAxis +
+                ", yAxis=" + yAxis +
+                ", zAxis=" + zAxis +
+                '}';
     }
 }

@@ -1,4 +1,4 @@
-package com.codulate.admin.config;
+package com.codulate.user.config;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +8,7 @@ import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
 import org.springframework.jms.core.JmsTemplate;
 
 import javax.jms.ConnectionFactory;
-import java.util.List;
+import java.util.Arrays;
 
 @Configuration
 public class ActiveMQConfig {
@@ -16,15 +16,15 @@ public class ActiveMQConfig {
     private String brokerUrl;
 
     @Bean
-    public ConnectionFactory connectionFactory() {
-        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory();
+    public ConnectionFactory connectionFactory(){
+        ActiveMQConnectionFactory activeMQConnectionFactory  = new ActiveMQConnectionFactory();
         activeMQConnectionFactory.setBrokerURL(brokerUrl);
-        activeMQConnectionFactory.setTrustedPackages(List.of("com.codulate"));
-        return activeMQConnectionFactory;
+        activeMQConnectionFactory.setTrustedPackages(Arrays.asList("com.codulate"));
+        return  activeMQConnectionFactory;
     }
 
     @Bean
-    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory() {
+    public DefaultJmsListenerContainerFactory jmsListenerContainerFactory(){
         DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory());
         factory.setPubSubDomain(true);
@@ -32,7 +32,7 @@ public class ActiveMQConfig {
     }
 
     @Bean
-    public JmsTemplate jmsTemplate() {
+    public JmsTemplate jmsTemplate(){
         JmsTemplate jmsTemplate = new JmsTemplate();
         jmsTemplate.setConnectionFactory(connectionFactory());
         jmsTemplate.setPubSubDomain(true);

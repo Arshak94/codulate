@@ -29,14 +29,4 @@ public class ZoneController {
         return zoneService.readAll();
     }
 
-    @PutMapping("/{id}")
-    public ZoneDTO update(@RequestBody ZoneDTO zone, @PathVariable Long id){
-        return zoneService.update(zone,id);
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id){
-        zoneService.delete(id);
-    }
-
 }
