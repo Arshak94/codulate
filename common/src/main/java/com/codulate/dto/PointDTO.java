@@ -1,10 +1,15 @@
 package com.codulate.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.io.Serializable;
 
 public class PointDTO implements Serializable {
+    @JsonProperty(value = "x")
     private double xAxis;
+    @JsonProperty(value = "y")
     private double yAxis;
+    @JsonProperty(value = "z")
     private double zAxis;
 
     public PointDTO() {
